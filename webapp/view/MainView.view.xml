@@ -1,0 +1,306 @@
+<mvc:View
+    controllerName="com.eros.customerrecord.controller.MainView"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns:layout="sap.ui.layout.form"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <Page
+        id="page"
+        title="{i18n>title}"
+    >
+        <content>
+            <SearchField
+                id="_IDGenSearchField"
+                width="500px"
+                class="sapUiSmallMarginBeginEnd"
+                placeholder="Enter Your registered Mobile Number"
+                search="onSearchNumber"
+            />
+            <Panel
+                expandable="false"
+                headerText="Basic Details"
+                class="sapUiSmallMarginBottom sapUiSmallMarginBegin sapUiSmallMarginTop sapUiMediumMarginEnd"
+            >
+                <content>
+                    <VBox
+                        width="60%"
+                        class="sapUiMediumMarginBegin"
+                    >
+                        <Label text="Customer Id" />
+                        <Input
+                            width="40%"
+                            value="{custModel>/Kunnr}"
+                            id="customerId"
+                            editable="false"
+                        />
+
+                        <Label text="Mobile Number" />
+                        <FlexBox
+                            width="40%"
+                            justifyContent="Start"
+                            alignItems="Center"
+                        >
+                            <ComboBox selectedKey="{custModel>/country_code}"
+                                showSecondaryValues="true"
+                                items="{ path: '/ZER_COUNTRY_DETSet', sorter: { path: 'CountryDesc' } }"
+                            >
+                                <core:ListItem
+                                    key="{CountryCode}"
+                                    text="{CountryCode}-{CountryDesc}"
+                                    additionalText="{CountryDesc}"
+                                />
+                            </ComboBox>
+                            <Input
+                                id="mobileNumber"
+                                type="Tel"
+                                value="{custModel>/MobNo}"
+                            />
+                        </FlexBox>
+
+                        <Label text="First Name" />
+                        <Input
+                            width="40%"
+                            id="firstName"
+                            value="{custModel>/Name1}"
+                        />
+
+                        <Label text="Last Name" />
+                        <Input
+                            width="40%"
+                            id="lastName"
+                            value="{custModel>/Name2}"
+                        />
+
+                        <Label text="Email" />
+                        <Input
+                            width="40%"
+                            id="email"
+                            type="Email"
+                            value="{custModel>/Email}"
+                        />
+
+                        <Label
+                            required="true"
+                            text="Date of Birth"
+                        />
+                        <DatePicker
+                            width="40%"
+                            id="dob"
+                            value="{custModel>/Dob}"
+                        />
+
+                        <Label
+                            required="true"
+                            text="Customer Type"
+                        />
+                        <Select
+                            width="40%"
+                            id="customerType"
+                            change="onCustomerTypeChange"
+                            selectedKey="{custModel>/CustType}"
+                        >
+                            <items>
+                                <core:Item
+                                    key="0"
+                                    text=""
+                                />
+                                <core:Item
+                                    key="1"
+                                    text="Local"
+                                />
+                                <core:Item
+                                    key="2"
+                                    text="Tourist"
+                                />
+                            </items>
+                        </Select>
+                    </VBox>
+                </content>
+            </Panel>
+            <Panel
+                expandable="true"
+                class="sapUiSmallMarginBottom sapUiSmallMarginBegin sapUiSmallMarginTop sapUiMediumMarginEnd"
+            >
+                <headerToolbar>
+                    <OverflowToolbar style="Clear">
+                        <Title text="Address Details" />
+                        <ToolbarSpacer />
+                        <Button
+                            class="sapUiMediumMarginEnd"
+                            text="Add More Address"
+                            press="onAddAddress"
+                        />
+                    </OverflowToolbar>
+                </headerToolbar>
+                <content>
+                    <HBox justifyContent="Start">
+                        <VBox
+                            width="30%"
+                            class="sapUiMediumMarginBegin"
+                        >
+                            <Label text="Address Type" />
+                            <Select id="addHomeType">
+                                <items>
+                                    <core:Item
+                                        key="0"
+                                        text=""
+                                    />
+                                    <core:Item
+                                        key="1"
+                                        text="Home"
+                                    />
+                                </items>
+                            </Select>
+                            <Label text="Address Line 1" />
+                            <Input value="{custModel>/home_add1}" />
+                            <Label text="Address Line 2" />
+                            <Input value="{custModel>/home_add2}" />
+                            <Label text="Street / PO Box" />
+                            <Input value="{custModel>/home_po}" />
+                            <Label text="City" />
+                            <Input value="{custModel>/home_City}" />
+                            <Label text="Country" />
+
+                            <ComboBox
+                                showSecondaryValues="true"
+                                selectedKey="{custModel>/home_Country}"
+                                items="{ path: '/ZER_COUNTRY_DETSet', sorter: { path: 'CountryDesc' } }"
+                            >
+                                <core:ListItem
+                                    key="{Country}"
+                                    text="{CountryDesc}"
+                                    additionalText="{CountryDesc}"
+                                />
+                            </ComboBox>
+                        </VBox>
+                        <VBox
+                            id="workSection"
+                            visible="false"
+                            width="30%"
+                            class="sapUiMediumMarginBeginEnd"
+                        >
+                            <Label text="Address Type" />
+                            <Select id="addWorkType">
+                                <items>
+                                    <core:Item
+                                        key="0"
+                                        text=""
+                                    />
+                                    <core:Item
+                                        key="2"
+                                        text="Work"
+                                    />
+                                </items>
+                            </Select>
+                            <Label text="Address Line 1" />
+                            <Input value="{custModel>/off_add1}" />
+                            <Label text="Address Line 2" />
+                            <Input value="{custModel>/off_add2}" />
+                            <Label text="Street / PO Box" />
+                            <Input value="{custModel>/off_po}" />
+                            <Label text="City" />
+                            <Input value="{custModel>/off_City}" />
+                            <Label text="Country" />
+                            <ComboBox
+                                showSecondaryValues="true"
+                                selectedKey="{custModel>/off_Country}"
+                                items="{ path: '/ZER_COUNTRY_DETSet', sorter: { path: 'CountryDesc' } }"
+                            >
+                                <core:ListItem
+                                    key="{Country}"
+                                    text="{CountryDesc}"
+                                    additionalText="{CountryDesc}"
+                                />
+                            </ComboBox>
+                        </VBox>
+                        <VBox
+                            id="otherSection"
+                            visible="false"
+                            width="30%"
+                            class="sapUiMediumMarginBeginEnd"
+                        >
+                            <Label text="Address Type" />
+                            <Select id="addOtherType">
+                                <items>
+                                    <core:Item
+                                        key="3"
+                                        text="Other"
+                                    />
+                                </items>
+                            </Select>
+                            <Label text="Address Line 1" />
+                            <Input value="{custModel>/oth_Add1}" />
+                            <Label text="Address Line 2" />
+                            <Input value="{custModel>/oth_Add2}" />
+                            <Label text="Street / PO Box" />
+                            <Input value="{custModel>/oth_po}" />
+                            <Label text="City" />
+                            <Input value="{custModel>/oth_City}" />
+                            <Label text="Country" />
+                            <ComboBox
+                                showSecondaryValues="true"
+                                selectedKey="{custModel>/oth_Country}"
+                                items="{ path: '/ZER_COUNTRY_DETSet', sorter: { path: 'CountryDesc' } }"
+                            >
+                                <core:ListItem
+                                    key="{Country}"
+                                    text="{CountryDesc}"
+                                    additionalText="{CountryDesc}"
+                                />
+                            </ComboBox>
+                        </VBox>
+                    </HBox>
+                </content>
+            </Panel>
+            <Panel
+                expandable="true"
+                headerText="Identity Card Details"
+                class="sapUiSmallMarginBottom sapUiSmallMarginBegin sapUiSmallMarginTop sapUiMediumMarginEnd"
+            >
+                <content>
+                    <VBox
+                        width="30%"
+                        class="sapUiMediumMarginBegin"
+                    >
+                        <Label
+                            id="cardTypelbl"
+                            text="Card Type"
+                        />
+                        <Input
+                            id="cardType"
+                            value="{custModel>/CardType}"
+                        />
+                        <Label
+                            id="issuedBylbl"
+                            text="Issued By"
+                        />
+                        <Input
+                            id="issuedBy"
+                            value="{custModel>/IssueBy}"
+                        />
+                        <Label
+                            id="cardNumberlbl"
+                            text="Card Number"
+                        />
+                        <Input
+                            id="cardNumber"
+                            value="{custModel>/IdenCardNum}"
+                        />
+                    </VBox>
+                </content>
+            </Panel>
+        </content>
+        <footer>
+            <OverflowToolbar>
+                <ToolbarSpacer />
+                <Button
+                    text="Save"
+                    type="Accept"
+                    press="onSave"
+                />
+            </OverflowToolbar>
+        </footer>
+    </Page>
+</mvc:View>
