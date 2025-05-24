@@ -25,37 +25,32 @@
             >
                 <content>
                     <VBox
-                        width="60%"
+                        width="40%"
                         class="sapUiMediumMarginBegin"
                     >
-                        <Label text="Customer Id" />
-                        <Input
-                            width="40%"
-                            value="{custModel>/Kunnr}"
-                            id="customerId"
-                            editable="false"
-                        />
-
                         <Label text="Mobile Number" />
                         <FlexBox
                             width="40%"
                             justifyContent="Start"
                             alignItems="Center"
                         >
-                            <ComboBox selectedKey="{custModel>/country_code}"
+                            <ComboBox
+                                selectedKey="{custModel>/Code}"
                                 showSecondaryValues="true"
-                                items="{ path: '/ZER_COUNTRY_DETSet', sorter: { path: 'CountryDesc' } }"
+                                items="{ path: '/CountryCodesSet', sorter: { path: 'CountryCode' } }"
+                                filterSecondaryValues="true"
                             >
                                 <core:ListItem
                                     key="{CountryCode}"
-                                    text="{CountryCode}-{CountryDesc}"
-                                    additionalText="{CountryDesc}"
+                                    text="{CountryCode}"
+                                    additionalText="{CountryName}"
                                 />
                             </ComboBox>
                             <Input
+                                class="sapUiSmallMarginBegin"
                                 id="mobileNumber"
-                                type="Tel"
-                                value="{custModel>/MobNo}"
+                                type="Number"
+                                value="{custModel>/Mobile}"
                             />
                         </FlexBox>
 
@@ -63,14 +58,14 @@
                         <Input
                             width="40%"
                             id="firstName"
-                            value="{custModel>/Name1}"
+                            value="{custModel>/FirstName}"
                         />
 
                         <Label text="Last Name" />
                         <Input
                             width="40%"
                             id="lastName"
-                            value="{custModel>/Name2}"
+                            value="{custModel>/LastName}"
                         />
 
                         <Label text="Email" />
@@ -81,15 +76,56 @@
                             value="{custModel>/Email}"
                         />
 
-                        <Label
-                            required="true"
-                            text="Date of Birth"
-                        />
-                        <DatePicker
+                        <Label text="Date of Birth" />
+                        <!-- <DatePicker
+                            displayFormat="dd MMMM yyyy"
+  valueFormat="yyyy-MM-dd"
                             width="40%"
                             id="dob"
-                            value="{custModel>/Dob}"
+                            value="{custModel>/BirthDate}"
+                        /> -->
+                        <DatePicker id="birthDate"
+                            width="40%"
+                            value="{
+    path: 'custModel>/BirthDate',
+    type: 'sap.ui.model.type.Date',
+    formatOptions: {
+      pattern: 'dd-MMM-yy'
+    },
+    constraints: {
+      nullable: true
+    }
+  }"
                         />
+                        <Label text="Nationality" />
+
+                            <ComboBox width="40%"
+                                showSecondaryValues="true"
+                                filterSecondaryValues="true"
+                                selectedKey="{custModel>/Nationality}"
+                                items="{ path: '/CountryCodesSet', sorter: { path: 'Country' } }"
+                            >
+                                <core:ListItem
+                                    key="{Country}"
+                                    text="{CountryName}"
+                                    additionalText="{Country}"
+                                />
+                            </ComboBox>
+
+                            <Label text="Country of Residence" />
+
+                            <ComboBox width="40%"
+                                showSecondaryValues="true"
+                                filterSecondaryValues="true"
+                                selectedKey="{custModel>/Residence}"
+                                items="{ path: '/CountryCodesSet', sorter: { path: 'Country' } }"
+                            >
+                                <core:ListItem
+                                    key="{Country}"
+                                    text="{CountryName}"
+                                    additionalText="{Country}"
+                                />
+                            </ComboBox>
 
                         <Label
                             required="true"
@@ -99,7 +135,7 @@
                             width="40%"
                             id="customerType"
                             change="onCustomerTypeChange"
-                            selectedKey="{custModel>/CustType}"
+                            selectedKey="{custModel>/CustomerType}"
                         >
                             <items>
                                 <core:Item
@@ -107,12 +143,12 @@
                                     text=""
                                 />
                                 <core:Item
-                                    key="1"
-                                    text="Local"
+                                    key="LOCAL"
+                                    text="LOCAL"
                                 />
                                 <core:Item
-                                    key="2"
-                                    text="Tourist"
+                                    key="TOURIST"
+                                    text="TOURIST"
                                 />
                             </items>
                         </Select>
@@ -149,29 +185,30 @@
                                     />
                                     <core:Item
                                         key="1"
-                                        text="Home"
+                                        text="HOME"
                                     />
                                 </items>
                             </Select>
                             <Label text="Address Line 1" />
-                            <Input value="{custModel>/home_add1}" />
+                            <Input value="{custModel>/HomeAddressLine1}" />
                             <Label text="Address Line 2" />
-                            <Input value="{custModel>/home_add2}" />
+                            <Input value="{custModel>/HomeAddressLine2}" />
                             <Label text="Street / PO Box" />
-                            <Input value="{custModel>/home_po}" />
+                            <Input value="{custModel>/HomeStreet}" />
                             <Label text="City" />
-                            <Input value="{custModel>/home_City}" />
+                            <Input value="{custModel>/HomeCity}" />
                             <Label text="Country" />
 
                             <ComboBox
                                 showSecondaryValues="true"
-                                selectedKey="{custModel>/home_Country}"
-                                items="{ path: '/ZER_COUNTRY_DETSet', sorter: { path: 'CountryDesc' } }"
+                                filterSecondaryValues="true"
+                                selectedKey="{custModel>/HomeCountry}"
+                                items="{ path: '/CountryCodesSet', sorter: { path: 'Country' } }"
                             >
                                 <core:ListItem
                                     key="{Country}"
-                                    text="{CountryDesc}"
-                                    additionalText="{CountryDesc}"
+                                    text="{CountryName}"
+                                    additionalText="{Country}"
                                 />
                             </ComboBox>
                         </VBox>
@@ -190,28 +227,29 @@
                                     />
                                     <core:Item
                                         key="2"
-                                        text="Work"
+                                        text="WORK"
                                     />
                                 </items>
                             </Select>
                             <Label text="Address Line 1" />
-                            <Input value="{custModel>/off_add1}" />
+                            <Input value="{custModel>/OfficeAddressLine1}" />
                             <Label text="Address Line 2" />
-                            <Input value="{custModel>/off_add2}" />
+                            <Input value="{custModel>/OfficeAddressLine2}" />
                             <Label text="Street / PO Box" />
-                            <Input value="{custModel>/off_po}" />
+                            <Input value="{custModel>/OfficeStreet}" />
                             <Label text="City" />
-                            <Input value="{custModel>/off_City}" />
+                            <Input value="{custModel>/OfficeCity}" />
                             <Label text="Country" />
                             <ComboBox
                                 showSecondaryValues="true"
-                                selectedKey="{custModel>/off_Country}"
-                                items="{ path: '/ZER_COUNTRY_DETSet', sorter: { path: 'CountryDesc' } }"
+                                filterSecondaryValues="true"
+                                selectedKey="{custModel>/OfficeCountry}"
+                                items="{ path: '/CountryCodesSet', sorter: { path: 'Country' } }"
                             >
                                 <core:ListItem
                                     key="{Country}"
-                                    text="{CountryDesc}"
-                                    additionalText="{CountryDesc}"
+                                   text="{CountryName}"
+                                    additionalText="{Country}"
                                 />
                             </ComboBox>
                         </VBox>
@@ -226,28 +264,29 @@
                                 <items>
                                     <core:Item
                                         key="3"
-                                        text="Other"
+                                        text="OTHER"
                                     />
                                 </items>
                             </Select>
                             <Label text="Address Line 1" />
-                            <Input value="{custModel>/oth_Add1}" />
+                            <Input value="{custModel>/OtherAddressLine1}" />
                             <Label text="Address Line 2" />
-                            <Input value="{custModel>/oth_Add2}" />
+                            <Input value="{custModel>/OtherAddressLine2}" />
                             <Label text="Street / PO Box" />
-                            <Input value="{custModel>/oth_po}" />
+                            <Input value="{custModel>/OtherStreet}" />
                             <Label text="City" />
-                            <Input value="{custModel>/oth_City}" />
+                            <Input value="{custModel>/OtherCity}" />
                             <Label text="Country" />
                             <ComboBox
                                 showSecondaryValues="true"
-                                selectedKey="{custModel>/oth_Country}"
-                                items="{ path: '/ZER_COUNTRY_DETSet', sorter: { path: 'CountryDesc' } }"
+                                filterSecondaryValues="true"
+                                selectedKey="{custModel>/OtherCountry}"
+                                items="{ path: '/CountryCodesSet', sorter: { path: 'Country' } }"
                             >
                                 <core:ListItem
                                     key="{Country}"
-                                    text="{CountryDesc}"
-                                    additionalText="{CountryDesc}"
+                                    text="{CountryName}"
+                                    additionalText="{Country}"
                                 />
                             </ComboBox>
                         </VBox>
@@ -266,27 +305,74 @@
                     >
                         <Label
                             id="cardTypelbl"
-                            text="Card Type"
+                            text="Identity Type"
                         />
-                        <Input
+
+                        <Select
                             id="cardType"
-                            value="{custModel>/CardType}"
-                        />
+                            selectedKey="{custModel>/IdentityType}"
+                        >
+                            <items>
+                                <core:Item
+                                    key="0"
+                                    text=""
+                                />
+                                <core:Item
+                                    key="PASSPORT"
+                                    text="PASSPORT"
+                                />
+                            </items>
+                        </Select>
+
                         <Label
                             id="issuedBylbl"
-                            text="Issued By"
+                            text="Identity Document Issued By"
                         />
-                        <Input
+                        <ComboBox
                             id="issuedBy"
-                            value="{custModel>/IssueBy}"
-                        />
+                            showSecondaryValues="true"
+                            filterSecondaryValues="true"
+                            selectedKey="{custModel>/IdentityIssuedBy}"
+                            items="{ path: '/CountryCodesSet', sorter: { path: 'Country' } }"
+                        >
+                            <core:ListItem
+                                key="{Country}"
+                                text="{Country}"
+                                additionalText="{CountryName}"
+                            />
+                        </ComboBox>
+
                         <Label
                             id="cardNumberlbl"
-                            text="Card Number"
+                            text="Identity Document Number"
                         />
                         <Input
                             id="cardNumber"
-                            value="{custModel>/IdenCardNum}"
+                            value="{custModel>/IdentityNumber}"
+                        />
+                        <Label
+                            id="cardExpirylbl"
+                            text="Identity Document Expiry Date"
+                        />
+
+                        <!-- <DatePicker
+                           displayFormat="dd MMMM yyyy" valueFormat="yyyy-MM-dd"
+                            width="40%"
+                            id="expiryDate"
+                            value="{custModel>/IdentityExpiry}"
+                        /> -->
+                        <DatePicker id="expiryDate"
+                            width="40%"
+                            value="{
+    path: 'custModel>/IdentityExpiry',
+    type: 'sap.ui.model.type.Date',
+    formatOptions: {
+      pattern: 'dd-MMM-yy'
+    },
+    constraints: {
+      nullable: true
+    }
+  }"
                         />
                     </VBox>
                 </content>

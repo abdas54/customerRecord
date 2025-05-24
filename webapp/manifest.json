@@ -17,7 +17,7 @@
     },
     "dataSources": {
       "mainService": {
-        "uri": "/sap/opu/odata/sap/ZEROS_RETAILP_MAT_STOCK_SRV/",
+        "uri": "/sap/opu/odata/sap/ZEROS_RETAIL_PROJECT_SRV/",
         "type": "OData",
         "settings": {
           "annotations": [],
