@@ -32,12 +32,14 @@ sap.ui.define([
                     this.getView().byId("issuedBylbl").setRequired(true);
                     this.getView().byId("cardNumberlbl").setRequired(true);
                     this.getView().byId("cardExpirylbl").setRequired(true);
+                    this.getView().getModel("custModel").setProperty("/Code","");
                 }
                 else {
                     this.getView().byId("cardTypelbl").setRequired(false);
                     this.getView().byId("issuedBylbl").setRequired(false);
                     this.getView().byId("cardNumberlbl").setRequired(false);
                     this.getView().byId("cardExpirylbl").setRequired(false);
+                    this.getView().getModel("custModel").setProperty("/Code","00971");
                 }
 
             },

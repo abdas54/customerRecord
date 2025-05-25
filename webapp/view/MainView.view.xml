@@ -28,6 +28,31 @@
                         width="40%"
                         class="sapUiMediumMarginBegin"
                     >
+                    <Label
+                            required="true"
+                            text="Customer Type"
+                        />
+                        <Select
+                            width="40%"
+                            id="customerType"
+                            change="onCustomerTypeChange"
+                            selectedKey="{custModel>/CustomerType}"
+                        >
+                            <items>
+                                <core:Item
+                                    key="0"
+                                    text=""
+                                />
+                                <core:Item
+                                    key="LOCAL"
+                                    text="LOCAL"
+                                />
+                                <core:Item
+                                    key="TOURIST"
+                                    text="TOURIST"
+                                />
+                            </items>
+                        </Select>
                         <Label text="Mobile Number" />
                         <FlexBox
                             width="40%"
@@ -127,31 +152,7 @@
                                 />
                             </ComboBox>
 
-                        <Label
-                            required="true"
-                            text="Customer Type"
-                        />
-                        <Select
-                            width="40%"
-                            id="customerType"
-                            change="onCustomerTypeChange"
-                            selectedKey="{custModel>/CustomerType}"
-                        >
-                            <items>
-                                <core:Item
-                                    key="0"
-                                    text=""
-                                />
-                                <core:Item
-                                    key="LOCAL"
-                                    text="LOCAL"
-                                />
-                                <core:Item
-                                    key="TOURIST"
-                                    text="TOURIST"
-                                />
-                            </items>
-                        </Select>
+                        
                     </VBox>
                 </content>
             </Panel>
