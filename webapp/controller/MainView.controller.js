@@ -116,11 +116,64 @@ sap.ui.define([
         // Return original if format doesn't match
         return dateStr;
     },
+      validateCustomer: function () {
+                var bFlag;
+                var custData = this.getView().getModel("custModel").getData();
+                var errorMessage = "";
+
+                // Basic Required Fields
+               
+                
+                if (!custData.FirstName || custData.FirstName.trim() === "") {
+                    errorMessage += "First Name is required.\n";
+                }
+                if (!custData.Code || custData.Code.trim() === "") {
+                    errorMessage += "Country Code is required.\n";
+                }
+                if (!custData.Mobile || custData.Mobile.trim() === "") {
+                    errorMessage += "Mobile Number is required.\n";
+                }
+                if (!custData.CustomerType || custData.CustomerType.trim() === "") {
+                    errorMessage += "Customer Type is required.\n";
+                }
+
+                // Additional fields for Tourist (CustType === "2")
+                if (custData.CustomerType === "TOURIST") {
+                    if (!custData.IdentityType || custData.IdentityType.trim() === "") {
+                        errorMessage += "Identity Type is required for Tourists.\n";
+                    }
+                    if (!custData.IdentityIssuedBy || custData.IdentityIssuedBy.trim() === "") {
+                        errorMessage += "Identity Document Issued By is required for Tourists.\n";
+                    }
+                    if (!custData.IdentityNumber || custData.IdentityNumber.trim() === "") {
+                        errorMessage += "Identity Document Number is required for Tourists.\n";
+                    }
+                    if (this.getView().byId("expiryDate").getValue() === "") {
+                        errorMessage += "Identity Expiry Date is required.\n";
+                    }
+                }
+
+                
+
+                // Show message if there are errors
+                if (errorMessage.length > 0) {
+                    sap.m.MessageBox.error(errorMessage);
+                    bFlag = false;
+                }
+                else {
+                    bFlag = true;
+                }
+
+                return bFlag;
+
+
+            },
     onSave: function (oEvent) {
         var that = this;
         var data = this.getView().getModel("custModel").getData();
         var birthDate = this.getView().byId("birthDate").getValue();
         var expiryDate = this.getView().byId("expiryDate").getValue();
+         var bFlag = this.validateCustomer();
 
         if (birthDate) {
             data.BirthDate =new Date(birthDate);
@@ -134,17 +187,17 @@ sap.ui.define([
         else {
             data.IdentityExpiry = null;
         }
-        var bflag = false;
+        
         if (data.CustomerType === "TOURIST") {
             if (data.IdentityExpiry && data.IdentityIssuedBy && data.IdentityIssuedBy && data.IdentityType) {
-                bflag = true;
+                
                 this.getView().byId("cardType").setValueState("None");
                 this.getView().byId("issuedBy").setValueState("None");
                 this.getView().byId("cardNumber").setValueState("None");
                 this.getView().byId("expiryDate").setValueState("None");
             }
             else {
-                bflag = false;
+            
                 this.getView().byId("cardType").setValueState("Error");
                 this.getView().byId("issuedBy").setValueState("Error");
                 this.getView().byId("cardNumber").setValueState("Error");
@@ -152,10 +205,8 @@ sap.ui.define([
 
             }
         }
-        else {
-            bflag = true;
-        }
-        if (bflag) {
+        
+        if (bFlag) {
             this.oModel.create("/CustomerSet", data, {
                 success: function (oData) {
                     that.getView().getModel("custModel").setData({});
@@ -168,9 +219,7 @@ sap.ui.define([
                 }
             });
         }
-        else {
-            sap.m.MessageBox.error("Kindly fill the the required fields");
-        }
+       
     }
         });
     });

@@ -53,7 +53,7 @@
                                 />
                             </items>
                         </Select>
-                        <Label text="Mobile Number" />
+                        <Label text="Mobile Number" required="true"/>
                         <FlexBox
                             width="40%"
                             justifyContent="Start"
