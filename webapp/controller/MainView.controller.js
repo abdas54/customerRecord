@@ -28,17 +28,11 @@ sap.ui.define([
             onCustomerTypeChange: function (oEvent) {
 
                 if (oEvent.getParameter("selectedItem").getProperty("key") === "TOURIST") {
-                    this.getView().byId("cardTypelbl").setRequired(true);
-                    this.getView().byId("issuedBylbl").setRequired(true);
-                    this.getView().byId("cardNumberlbl").setRequired(true);
-                    this.getView().byId("cardExpirylbl").setRequired(true);
+                   
                     this.getView().getModel("custModel").setProperty("/Code","");
                 }
                 else {
-                    this.getView().byId("cardTypelbl").setRequired(false);
-                    this.getView().byId("issuedBylbl").setRequired(false);
-                    this.getView().byId("cardNumberlbl").setRequired(false);
-                    this.getView().byId("cardExpirylbl").setRequired(false);
+                    
                     this.getView().getModel("custModel").setProperty("/Code","00971");
                 }
 
@@ -137,21 +131,7 @@ sap.ui.define([
                     errorMessage += "Customer Type is required.\n";
                 }
 
-                // Additional fields for Tourist (CustType === "2")
-                if (custData.CustomerType === "TOURIST") {
-                    if (!custData.IdentityType || custData.IdentityType.trim() === "") {
-                        errorMessage += "Identity Type is required for Tourists.\n";
-                    }
-                    if (!custData.IdentityIssuedBy || custData.IdentityIssuedBy.trim() === "") {
-                        errorMessage += "Identity Document Issued By is required for Tourists.\n";
-                    }
-                    if (!custData.IdentityNumber || custData.IdentityNumber.trim() === "") {
-                        errorMessage += "Identity Document Number is required for Tourists.\n";
-                    }
-                    if (this.getView().byId("expiryDate").getValue() === "") {
-                        errorMessage += "Identity Expiry Date is required.\n";
-                    }
-                }
+              
 
                 
 
@@ -172,7 +152,7 @@ sap.ui.define([
         var that = this;
         var data = this.getView().getModel("custModel").getData();
         var birthDate = this.getView().byId("birthDate").getValue();
-        var expiryDate = this.getView().byId("expiryDate").getValue();
+       
          var bFlag = this.validateCustomer();
 
         if (birthDate) {
@@ -181,31 +161,11 @@ sap.ui.define([
         else {
             data.BirthDate = null;
         }
-        if (expiryDate) {
-            data.IdentityExpiry = new Date(expiryDate);
-        }
-        else {
+       
             data.IdentityExpiry = null;
-        }
+      
         
-        if (data.CustomerType === "TOURIST") {
-            if (data.IdentityExpiry && data.IdentityIssuedBy && data.IdentityIssuedBy && data.IdentityType) {
-                
-                this.getView().byId("cardType").setValueState("None");
-                this.getView().byId("issuedBy").setValueState("None");
-                this.getView().byId("cardNumber").setValueState("None");
-                this.getView().byId("expiryDate").setValueState("None");
-            }
-            else {
-            
-                this.getView().byId("cardType").setValueState("Error");
-                this.getView().byId("issuedBy").setValueState("Error");
-                this.getView().byId("cardNumber").setValueState("Error");
-                this.getView().byId("expiryDate").setValueState("Error");
-
-            }
-        }
-        
+     
         if (bFlag) {
             this.oModel.create("/CustomerSet", data, {
                 success: function (oData) {
