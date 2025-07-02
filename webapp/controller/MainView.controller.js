@@ -33,7 +33,7 @@ sap.ui.define([
                 }
                 else {
                     
-                    this.getView().getModel("custModel").setProperty("/Code","00971");
+                    this.getView().getModel("custModel").setProperty("/Code","971");
                 }
 
             },
