@@ -122,6 +122,8 @@
     }
   }"
                         />
+                         <Label  text="TRN Number"/>
+  <Input value="{custModel>/TrnNumber}" class="inputStyle customInputHeight sapUiSmallMarginBottom" maxlength="30"/>
                         <Label text="Nationality" />
 
                             <ComboBox width="40%"
